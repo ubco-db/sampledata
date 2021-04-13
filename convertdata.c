@@ -173,7 +173,7 @@ int main()
     /* Open output binary file */
     FILE *outfile;
     // outfile = fopen("data/sea100K.bin", "w+b");
-    outfile = fopen("data/uwa100K.bin", "w+b");
+    outfile = fopen("data/uwa500K.bin", "w+b");
     if (NULL == outfile) 
     {
         printf("Error: Failed to open output file!\n");
