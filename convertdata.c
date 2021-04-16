@@ -59,6 +59,8 @@ convert_test_data(
     int8_t* buffer = malloc((size_t) pageSize);
     char line[256];
     char record[16];
+    time_t time, prevTime = 0;
+    time_t sumDiffs = 0;
 
     while (fgets(line, sizeof(line), infile))
     {        
@@ -76,8 +78,23 @@ convert_test_data(
         cal.tm_sec = 0;
         cal.tm_isdst = -1;        
         //strptime(line, "%Y/%m/%d/%H", &cal);        
-        time_t time = mktime(&cal);
+        time = mktime(&cal);
         // printf("UNIX time: %lu\n", time);
+        if (time < prevTime)
+        {
+            printf("UNIX time: %lu  Diff: %lu\n", time, (time-prevTime));           
+            printf("%s\n", line);
+        }
+        
+        if (prevTime != 0)
+        {           
+            sumDiffs += time - prevTime;  
+        }   
+        else
+        {
+            printf("Time first record: %lu\n", time);  
+        }
+        prevTime = time;
 
         /* Convert record to binary form */
         memcpy(record, &time, 4);
@@ -120,8 +137,9 @@ convert_test_data(
         fwrite(buffer, pageSize, 1, outfile);        
     }   
     fflush(outfile);
-
-
+    
+    printf("Time last record: %lu\n", time);  
+      
     /* Verify the data written */
     fseek(outfile, 0, SEEK_SET);
 
@@ -149,6 +167,7 @@ convert_test_data(
     }                            
     
     printf("Total records read: %d  written: %d\n", total1, total2);
+    printf("Total time diffs: %lu  Per record diffs: %lu\n", sumDiffs, sumDiffs/total1);
 
     free(buffer);    
     
@@ -162,8 +181,8 @@ int main()
 {
 	/* Open input text file*/
     FILE *infile;
-    infile = fopen("data/seatac_data_100K.txt", "r");
-    // infile = fopen("data/uwa_data_only_2000_500K.txt", "r");
+    // infile = fopen("data/seatac_data_100K.txt", "r");
+    infile = fopen("data/uwa_data_only_2000_500K.txt", "r");
     if (NULL == infile) 
     {
         printf("Error: Failed to open input file!\n");
@@ -172,8 +191,8 @@ int main()
 
     /* Open output binary file */
     FILE *outfile;
-    outfile = fopen("data/sea100K.bin", "w+b");
-    // outfile = fopen("data/uwa500K.bin", "w+b");
+    // outfile = fopen("data/sea100K.bin", "w+b");
+    outfile = fopen("data/uwa500K.bin", "w+b");
     if (NULL == outfile) 
     {
         printf("Error: Failed to open output file!\n");
