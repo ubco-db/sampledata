@@ -161,7 +161,7 @@ convert_test_data(
             printf("%lu %d %d %d %d\n", *((uint32_t*) buf), *((int16_t*) (buf+4)), *((int16_t*) (buf+6)), *((int32_t*) (buf+8)), *((int32_t*) (buf+12)));
             */
             /* 4 byte key for temperature */            
-            // printf("%lu %d %d %d\n", *((uint32_t*) buf), *((int32_t*) (buf+4)), *((int32_t*) (buf+8)), *((int32_t*) (buf+12)));            
+            printf("%lu %d %d %d\n", *((uint32_t*) buf), *((int32_t*) (buf+4)), *((int32_t*) (buf+8)), *((int32_t*) (buf+12)));            
             total2++;
         }
     }                            
