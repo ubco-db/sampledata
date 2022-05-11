@@ -175,6 +175,105 @@ convert_test_data(
 }
 
 /**
+ * Converts health (ECG) data from text to binary form
+ */
+int
+convert_health_data(
+        FILE *infile,
+        FILE *outfile)
+{
+    printf("Converting health data.\n");
+
+    int16_t pageSize = 512;
+    int16_t headerSize = 16;
+    int16_t countOffset = 4;
+    int16_t recordSize = 32;
+    int16_t recordsPerPage = 15;
+    int16_t count = 0;
+    int32_t total1 = 0, total2 = 0;
+    int8_t* buffer = malloc((size_t) pageSize);
+    char line[256];
+    char record[recordSize];
+    time_t time, prevTime = 0;
+    time_t sumDiffs = 0;
+
+    while (fgets(line, sizeof(line), infile))
+    {        
+        if (line[0] == '#')
+            continue;
+
+        // printf("%s\n", line);
+        // # ROW, EMPTY, ECG, EDA, EMG, TEMP, XYZ, XYZ, XYZ, RESPIRATION
+        int row, empty, ecg, eda, emg, temp, x, y, z, respiration;
+
+        sscanf(line, "%d %d %d %d %d %d %d %d %d %d", &row, &empty, &ecg, &eda, &emg, &temp, &x, &y, &z, &respiration);     
+      
+        /* Convert record to binary form */
+        memcpy(record, &ecg, 4);
+        memcpy( (void*) (record+4), &eda, 4);
+        memcpy( (void*) (record+8), &emg, 4);
+        memcpy( (void*) (record+12), &temp, 4);
+        memcpy( (void*) (record+16), &x, 4);
+        memcpy( (void*) (record+20), &y, 4);
+        memcpy( (void*) (record+24), &z, 4);
+        memcpy( (void*) (record+28), &respiration, 4);
+        
+        /* Add record to block */        
+        if (count == recordsPerPage)
+        {
+            /* Block full. Write out page */
+            *((int16_t*) (buffer + countOffset)) = count;
+            fwrite(buffer, pageSize, 1, outfile);
+            count = 0;
+        }    
+        memcpy( (void*) (buffer+headerSize+count*recordSize), record, recordSize);
+        count++;    
+        total1++;    
+    }
+
+    /* Write out last page */
+    if (count > 0)
+    {
+        /* Write out last page */
+        *((int16_t*) (buffer + countOffset)) = count;
+        fwrite(buffer, pageSize, 1, outfile);        
+    }   
+    fflush(outfile);
+    
+    printf("Time last record: %lu\n", time);  
+      
+    /* Verify the data written */
+    fseek(outfile, 0, SEEK_SET);
+
+    while (1)
+    {
+        /* Read page */
+        if (0 == fread(buffer, pageSize, 1, outfile))
+            break;
+                  
+        /* Process all records on page */
+        int16_t count = *((int16_t*) (buffer+countOffset));
+        /* printf("Block: %d Count: %d\n", *((int16_t*) buffer), count); */            
+        for (int j=0; j < count; j++)
+        {	
+            void *buf = (buffer + headerSize + j*recordSize);				
+            /* Print record */            
+            /*
+            printf("%d %d %d %d %d %d %d %d\n", *((uint32_t*) buf), *((int32_t*) (buf+4)), *((int32_t*) (buf+8)), *((int32_t*) (buf+12))
+                                                , *((int32_t*) (buf+16)), *((int32_t*) (buf+20)), *((int32_t*) (buf+24)), *((int32_t*) (buf+28)));            
+            */
+            total2++;
+        }
+    }                            
+    
+    printf("Total records read: %d  written: %d\n", total1, total2);    
+    free(buffer);    
+    
+    return 0;
+}
+
+
+/**
  * Main function to run tests
  */ 
 int main()
@@ -182,7 +281,8 @@ int main()
 	/* Open input text file*/
     FILE *infile;
     // infile = fopen("data/seatac_data_100K.txt", "r");
-    infile = fopen("data/uwa_data_only_2000_500K.txt", "r");
+    // infile = fopen("data/uwa_data_only_2000_500K.txt", "r");
+    infile = fopen("data/S7_respiban_500K.txt", "r");
     if (NULL == infile) 
     {
         printf("Error: Failed to open input file!\n");
@@ -192,14 +292,18 @@ int main()
     /* Open output binary file */
     FILE *outfile;
     // outfile = fopen("data/sea100K.bin", "w+b");
-    outfile = fopen("data/uwa500K.bin", "w+b");
+    // outfile = fopen("data/uwa500K.bin", "w+b");
+    outfile = fopen("data/S7hl500K.bin", "w+b");
     if (NULL == outfile) 
     {
         printf("Error: Failed to open output file!\n");
         return -1;
     }
     
-    convert_test_data(infile, outfile);
+    // Convert test data is used for environmental data
+    // convert_test_data(infile, outfile);
 
+    // Convert health data is used for health data
+    convert_health_data(infile, outfile);
     return 0;
 }
