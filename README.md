@@ -4,8 +4,7 @@ This repository contains data used for sensor index performance testing. Files a
 
 ## Environmental Data
 
-This environmental data set consists of temperature, humidity, and wind speed readings from various temperature stations in Washington. The two sta-
-tions used were located at the University of Washington (that sampled every minute) and at Sea-Tac airport (that sampled every hour). The timestamp was
+This environmental data set consists of temperature, humidity, and wind speed readings from various temperature stations in Washington. The two stations used were located at the University of Washington (that sampled every minute) and at Sea-Tac airport (that sampled every hour). The timestamp was
 converted into a 4-byte integer representing a UNIX timestamp in seconds. The record size consisted of 16 bytes total including a 4-byte timestamp, 4-byte temperature, 4-byte pressure, and 4-byte wind speed. 
 
 The full data set is available at [https://www-k12.atmos.washington.edu/k12/grayskies/](https://www-k12.atmos.washington.edu/k12/grayskies/). It has been used in previous publications including [MicroHash](https://dl.acm.org/doi/10.5555/1251028.1251031) and [SBITS](https://www.scitepress.org/Link.aspx?doi=10.5220/0010318800920099).
