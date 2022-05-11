@@ -16,7 +16,7 @@ UWA Files:
 Sea-Tac Files:
  - Text: [data/seatac_data_100K.txt](data/seatac_data_100K.txt)
  - Binary: [data/sea100K.bin](data/sea100K.bin)
- - 
+ 
 ## WESAD Data
 
 The [WESAD (wearable stress and affect detection) health data set](https://dl.acm.org/doi/10.1145/3242969.3242985) contains sensor measurements including electrocardiogram (ECG), electrodermal activity, electromyogram, respiration, body temperature, and three-axis acceleration for multiple patients. 500,000 samples from patient S7 were used for testing.
