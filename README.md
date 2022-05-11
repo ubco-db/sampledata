@@ -8,7 +8,7 @@ Environmental data set contains environmental weather station readings for Unive
 
 UWA Files:
  - Text: [data/uwa_data_only_2000_500K.txt](data/uwa_data_only_2000_500K.txt)
- - Binary: [data/uwa500K.bin]
+ - Binary: (data/uwa500K.bin)
 
 SeaTac Files:
  - Text: [data/seatac_data_100K.txt]
