@@ -1,4 +1,4 @@
-# Sensor Experiment sample data
+# Sensor Experiment Sample Data
 
 This repository contains data used for sensor indexing performance testing. Files are provided in text and binary form. The binary form is converted in 512 byte pages storing the records.
 
@@ -7,7 +7,7 @@ This repository contains data used for sensor indexing performance testing. File
 Environmental data set contains environmental weather station readings for University of Washington and SeaTac airport in Seattle. The full data set is available at:  . It has been used in previous publications including MicroHash and SBITS.
 
 UWA Files:
- - Text: [data/uwa_data_only_2000_500K.txt]
+ - Text: [data/uwa_data_only_2000_500K.txt](data/uwa_data_only_2000_500K.txt)
  - Binary: [data/uwa500K.bin]
 
 SeaTac Files:
