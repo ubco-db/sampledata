@@ -1,6 +1,6 @@
 # Sensor Experiment Sample Data
 
-This repository contains data used for sensor indexing performance testing. Files are provided in text and binary form. The records in binary form are stored in 512 byte pages.
+This repository contains data used for sensor index performance testing. Files are provided in text and binary form. The records in binary form are stored in 512 byte pages.
 
 ## Environmental Data
 
