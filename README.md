@@ -21,7 +21,7 @@ Sea-Tac Files:
 
 The [WESAD (wearable stress and affect detection) health data set](https://dl.acm.org/doi/10.1145/3242969.3242985) contains sensor measurements including electrocardiogram (ECG), electrodermal activity, electromyogram, respiration, body temperature, and three-axis acceleration for multiple patients. 500,000 samples from patient S7 were used for testing.
 
-The full data set is available at: [https://uni-siegen.sciebo.de/s/HGdUkoNlW1Ub0Gx](https://uni-siegen.sciebo.de/s/HGdUkoNlW1Ub0Gx) ([further information](https://www.eti.uni-siegen.de/ubicomp/home/datasets/icmi18/index.html.en?lang=en))
+The full data set is available at [https://uni-siegen.sciebo.de/s/HGdUkoNlW1Ub0Gx](https://uni-siegen.sciebo.de/s/HGdUkoNlW1Ub0Gx) ([further information](https://www.eti.uni-siegen.de/ubicomp/home/datasets/icmi18/index.html.en?lang=en)).
 
 Files:
  - Text: [data/S7_respiban_500K.txt](data/S7_respiban_500K.txt)
